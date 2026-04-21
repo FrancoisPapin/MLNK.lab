@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-level Interdisciplinarity Knowledge Network | François Papin</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --surface: #0b0f1c;
+    --border: #18243a;
+    --text: #e2eaf6;
+    --muted: #5a7494;
+    --font-mono: 'Space Mono', monospace;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--font-sans); min-height:100vh; }
+
+  .hero {
+    padding: 72px 40px 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(ellipse 900px 400px at 50% 0%, #1a2444 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: #F59E0B22;
+    border: 1px solid #F59E0B55;
+    color: #F59E0B;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 5px 14px;
+    border-radius: 4px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+  h1 span { color: #F59E0B; }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 28px;
+    line-height: 1.65;
+  }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .meta a { color: #F59E0B; text-decoration: none; }
+
+  /* ── FEATURED: INTER MAP ── */
+  .featured {
+    margin: 40px auto;
+    max-width: 1100px;
+    padding: 0 24px;
+  }
+  .featured-card {
+    background: linear-gradient(135deg, #0d1420, #111827);
+    border: 1px solid #F59E0B44;
+    border-radius: 12px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .feat-text {}
+  .feat-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #F59E0B;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .feat-title { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+  .feat-desc { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 480px; }
+  .feat-layers {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .feat-layer {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: .08em;
+  }
+  .l-a { background: #F59E0B22; border: 1px solid #F59E0B55; color: #F59E0B; }
+  .l-b { background: #10B98122; border: 1px solid #10B98155; color: #10B981; }
+  .l-c { background: #6366F122; border: 1px solid #6366F155; color: #6366F1; }
+  .l-br { background: #EC489922; border: 1px solid #EC489955; color: #EC4899; }
+  .open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #F59E0B;
+    color: #060810;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    transition: opacity .2s;
+    flex-shrink: 0;
+  }
+  .open-btn:hover { opacity: .85; }
+
+  /* ── DISCIPLINE GRID ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-title { font-size: 20px; font-weight: 600; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color .2s, transform .15s, box-shadow .2s;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent);
+  }
+  .card:hover {
+    border-color: var(--card-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+  .card-number {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    letter-spacing: .08em;
+  }
+  .card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+  .card-stats {
+    display: flex;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .card-stat span { color: var(--text); }
+  .card-arrow {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-size: 14px;
+    color: var(--card-accent);
+    opacity: .6;
+  }
+
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer a { color: #F59E0B; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Research Project · 2026</div>
+  <h1>Multi-level <span>Interdisciplinarity</span><br>Knowledge Network</h1>
+  <p class="hero-sub">
+    Synthesis of research state of the art across 10 academic disciplines, with interdisciplinary bridges and multi-layer epistemic analysis.
+  </p>
+  <div class="meta">
+    <span>Author: <strong style="color:var(--text)">François Papin</strong></span>
+    <span>·</span>
+    <span>April 21, 2026</span>
+    <span>·</span>
+    <span>MIT License</span>
+    <span>·</span>
+    <a href="https://www.linkedin.com/in/francoispapin/" target="_blank">LinkedIn ↗</a>
+  </div>
+</div>
+
+<div class="featured">
+  <div class="featured-card">
+    <div class="feat-text">
+      <div class="feat-tag">★ Flagship Map</div>
+      <div class="feat-title">Interdisciplinarity — Multi-Level Network</div>
+      <div class="feat-desc">Integrates all 10 disciplines with interdisciplinary bridge concepts and three analytical layers: disciplines, epistemic roles, and levels of analysis.</div>
+      <div class="feat-layers">
+        <span class="feat-layer l-a">Layer A · Disciplines</span>
+        <span class="feat-layer l-b">Layer B · Epistemic Roles</span>
+        <span class="feat-layer l-c">Layer C · Levels of Analysis</span>
+        <span class="feat-layer l-br">Bridges</span>
+      </div>
+    </div>
+    <a href="interdisciplinarity.html" class="open-btn">Open Map →</a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="section-label">Discipline Maps</span>
+    <span class="section-title">10 Knowledge Network Maps</span>
+  </div>
+  <div class="grid">
+
+    <a href="philosophy.html" class="card" style="--card-accent:#A78BFA">
+      <span class="card-arrow">→</span>
+      <div class="card-number">01</div>
+      <div class="card-title">Philosophy</div>
+      <div class="card-desc">Epistemology, ontology, ethics, logic, and philosophy of mind — from Plato to contemporary analytic and continental traditions.</div>
+      <div class="card-stats"><span>24</span> nodes · <span>30</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="cognitive_psychology.html" class="card" style="--card-accent:#60A5FA">
+      <span class="card-arrow">→</span>
+      <div class="card-number">02</div>
+      <div class="card-title">Cognitive Psychology</div>
+      <div class="card-desc">Memory systems, attention, executive function, decision-making, metacognition, and embodied cognition.</div>
+      <div class="card-stats"><span>22</span> nodes · <span>30</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="neuroscience.html" class="card" style="--card-accent:#34D399">
+      <span class="card-arrow">→</span>
+      <div class="card-number">03</div>
+      <div class="card-title">Neuroscience</div>
+      <div class="card-desc">Brain structures, synaptic plasticity, neural networks, cognitive functions, and neuroscience methods.</div>
+      <div class="card-stats"><span>23</span> nodes · <span>27</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="education_science.html" class="card" style="--card-accent:#FBBF24">
+      <span class="card-arrow">→</span>
+      <div class="card-number">04</div>
+      <div class="card-title">Education Science</div>
+      <div class="card-desc">Constructivism, ZPD, formative assessment, self-regulated learning, and educational technology.</div>
+      <div class="card-stats"><span>22</span> nodes · <span>25</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="human_rights.html" class="card" style="--card-accent:#F87171">
+      <span class="card-arrow">→</span>
+      <div class="card-number">05</div>
+      <div class="card-title">Human Rights</div>
+      <div class="card-desc">UDHR framework, civil/political/economic/social rights, cultural rights, and emerging digital and environmental rights.</div>
+      <div class="card-stats"><span>23</span> nodes · <span>24</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="environmental_science.html" class="card" style="--card-accent:#4ADE80">
+      <span class="card-arrow">→</span>
+      <div class="card-number">06</div>
+      <div class="card-title">Environmental Science</div>
+      <div class="card-desc">Climate change, biodiversity, ecosystem services, planetary boundaries, and Anthropocene dynamics.</div>
+      <div class="card-stats"><span>22</span> nodes · <span>25</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="computer_science.html" class="card" style="--card-accent:#818CF8">
+      <span class="card-arrow">→</span>
+      <div class="card-number">07</div>
+      <div class="card-title">Computer Science</div>
+      <div class="card-desc">Algorithms, machine learning, deep learning, LLMs, distributed systems, cryptography, and HCI.</div>
+      <div class="card-stats"><span>23</span> nodes · <span>25</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="sociology.html" class="card" style="--card-accent:#F472B6">
+      <span class="card-arrow">→</span>
+      <div class="card-number">08</div>
+      <div class="card-title">Sociology</div>
+      <div class="card-desc">Social theory (Bourdieu, Goffman), institutions, intersectionality, globalization, and digital sociology.</div>
+      <div class="card-stats"><span>22</span> nodes · <span>24</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="language_science.html" class="card" style="--card-accent:#22D3EE">
+      <span class="card-arrow">→</span>
+      <div class="card-number">09</div>
+      <div class="card-title">Language Science</div>
+      <div class="card-desc">Syntax, semantics, pragmatics, cognitive linguistics, sociolinguistics, and computational language models.</div>
+      <div class="card-stats"><span>22</span> nodes · <span>24</span> edges · <span>5</span> clusters</div>
+    </a>
+
+    <a href="systems_science.html" class="card" style="--card-accent:#C084FC">
+      <span class="card-arrow">→</span>
+      <div class="card-number">10</div>
+      <div class="card-title">Systems Science</div>
+      <div class="card-desc">Complex systems, emergence, chaos theory, cybernetics, network theory, and agent-based modeling.</div>
+      <div class="card-stats"><span>23</span> nodes · <span>26</span> edges · <span>5</span> clusters</div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <span>Multi-level Interdisciplinarity Knowledge Network — Research Synthesis Project</span>
+  <span>© 2026 <strong>François Papin</strong> · <a href="https://www.linkedin.com/in/francoispapin/" target="_blank">LinkedIn</a> · MIT License</span>
+</footer>
+
+</body>
+</html>
